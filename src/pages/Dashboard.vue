@@ -1,19 +1,26 @@
 <template>
   <div>
-
     <!--Stats cards-->
     <div class="row">
-      <div class="col-md-6 col-xl-3" v-for="stats in statsCards" :key="stats.title">
+      <div
+        class="col-md-6 col-xl-3"
+        v-for="stats in statsCards"
+        :key="stats.title"
+      >
         <stats-card>
-          <div class="icon-big text-center" :class="`icon-${stats.type}`" slot="header">
+          <div
+            class="icon-big text-center"
+            :class="`icon-${stats.type}`"
+            slot="header"
+          >
             <i :class="stats.icon"></i>
           </div>
           <div class="numbers" slot="content">
-            <p>{{stats.title}}</p>
-            {{stats.value}}
+            <p>{{ stats.title }}</p>
+            {{ stats.value }}
           </div>
           <div class="stats" slot="footer">
-            <i :class="stats.footerIcon"></i> {{stats.footerText}}
+            <i :class="stats.footerIcon"></i> {{ stats.footerText }}
           </div>
         </stats-card>
       </div>
@@ -21,12 +28,13 @@
 
     <!--Charts-->
     <div class="row">
-
       <div class="col-12">
-        <chart-card title="Users behavior"
-                    sub-title="24 Hours performance"
-                    :chart-data="usersChart.data"
-                    :chart-options="usersChart.options">
+        <chart-card
+          title="Users behavior"
+          sub-title="24 Hours performance"
+          :chart-data="usersChart.data"
+          :chart-options="usersChart.options"
+        >
           <span slot="footer">
             <i class="ti-reload"></i> Updated 3 minutes ago
           </span>
@@ -39,12 +47,15 @@
       </div>
 
       <div class="col-md-6 col-12">
-        <chart-card title="Email Statistics"
-                    sub-title="Last campaign performance"
-                    :chart-data="preferencesChart.data"
-                    chart-type="Pie">
+        <chart-card
+          title="Páginas mas visitadas"
+          sub-title="Las últimas páginas mas visitadas"
+          :chart-data="preferencesChart.data"
+          chart-type="Pie"
+        >
           <span slot="footer">
-            <i class="ti-timer"></i> Campaign set 2 days ago</span>
+            <i class="ti-timer"></i>Actualizado recientemente</span
+          >
           <div slot="legend">
             <i class="fa fa-circle text-info"></i> Open
             <i class="fa fa-circle text-danger"></i> Bounce
@@ -54,10 +65,12 @@
       </div>
 
       <div class="col-md-6 col-12">
-        <chart-card title="2015 Sales"
-                    sub-title="All products including Taxes"
-                    :chart-data="activityChart.data"
-                    :chart-options="activityChart.options">
+        <chart-card
+          title="2015 Sales"
+          sub-title="All products including Taxes"
+          :chart-data="activityChart.data"
+          :chart-options="activityChart.options"
+        >
           <span slot="footer">
             <i class="ti-check"></i> Data information certified
           </span>
@@ -67,57 +80,54 @@
           </div>
         </chart-card>
       </div>
-
     </div>
-
   </div>
 </template>
 <script>
 import { StatsCard, ChartCard } from "@/components/index";
-import Chartist from 'chartist';
+import Chartist from "chartist";
+import InvitationProxy from "@/proxies/invitation.proxy";
+import UrlProxy from "@/proxies/url.proxy";
 export default {
   components: {
     StatsCard,
-    ChartCard
+    ChartCard,
   },
-  /**
-   * Chart data used to render stats, charts. Should be replaced with server data
-   */
   data() {
     return {
       statsCards: [
         {
           type: "warning",
           icon: "ti-server",
-          title: "Capacity",
-          value: "105GB",
-          footerText: "Updated now",
-          footerIcon: "ti-reload"
+          title: "Equipo",
+          value: 0,
+          footerText: "Actualizado ahora",
+          footerIcon: "ti-reload",
         },
         {
           type: "success",
           icon: "ti-wallet",
-          title: "Revenue",
-          value: "$1,345",
-          footerText: "Last day",
-          footerIcon: "ti-calendar"
+          title: "Invitaciones",
+          value: 0,
+          footerText: "Actualizado ahora",
+          footerIcon: "ti-reload",
         },
         {
           type: "danger",
           icon: "ti-pulse",
-          title: "Errors",
-          value: "23",
-          footerText: "In the last hour",
-          footerIcon: "ti-timer"
+          title: "Actividades",
+          value: 0,
+          footerText: "Actualizado ahora",
+          footerIcon: "ti-reload",
         },
         {
           type: "info",
           icon: "ti-twitter-alt",
-          title: "Followers",
-          value: "+45",
-          footerText: "Updated now",
-          footerIcon: "ti-reload"
-        }
+          title: "Capturas",
+          value: 0,
+          footerText: "Actualizado ahora",
+          footerIcon: "ti-reload",
+        },
       ],
       usersChart: {
         data: {
@@ -129,13 +139,13 @@ export default {
             "9:00PM",
             "12:00PM",
             "3:00AM",
-            "6:00AM"
+            "6:00AM",
           ],
           series: [
             [287, 385, 490, 562, 594, 626, 698, 895, 952],
             [67, 152, 193, 240, 387, 435, 535, 642, 744],
-            [23, 113, 67, 108, 190, 239, 307, 410, 410]
-          ]
+            [23, 113, 67, 108, 190, 239, 307, 410, 410],
+          ],
         },
         options: {
           low: 0,
@@ -143,14 +153,14 @@ export default {
           showArea: true,
           height: "245px",
           axisX: {
-            showGrid: false
+            showGrid: false,
           },
           lineSmooth: Chartist.Interpolation.simple({
-            divisor: 3
+            divisor: 3,
           }),
           showLine: true,
-          showPoint: false
-        }
+          showPoint: false,
+        },
       },
       activityChart: {
         data: {
@@ -166,30 +176,81 @@ export default {
             "Sep",
             "Oct",
             "Nov",
-            "Dec"
+            "Dec",
           ],
           series: [
             [542, 543, 520, 680, 653, 753, 326, 434, 568, 610, 756, 895],
-            [230, 293, 380, 480, 503, 553, 600, 664, 698, 710, 736, 795]
-          ]
+            [230, 293, 380, 480, 503, 553, 600, 664, 698, 710, 736, 795],
+          ],
         },
         options: {
           seriesBarDistance: 10,
           axisX: {
-            showGrid: false
+            showGrid: false,
           },
-          height: "245px"
-        }
+          height: "245px",
+        },
       },
       preferencesChart: {
         data: {
           labels: ["62%", "32%", "6%"],
-          series: [62, 32, 6]
+          series: [62, 32, 6],
         },
-        options: {}
-      }
+        options: {},
+      },
     };
-  }
+  },
+  methods: {
+    async getUserInvitations() {
+      if (this.currentUser) {
+        await InvitationProxy.searchInvitation(null, this.currentUser.id)
+          .then((response) => {
+            this.statsCards[1].value = response.data.filter(
+              (x) => !x.status
+            ).length;
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+      }
+    },
+    async getUrls() {
+      if (this.currentUser) {
+        await UrlProxy.searchUrl(null, this.currentUser.id)
+          .then((response) => {
+            this.statsCards[2].value = response.data.length;
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+      }
+    },
+    async getTeamMembers() {
+      if (this.currentUser) {
+        await InvitationProxy.searchInvitation()
+          .then(async (response) => {
+            this.statsCards[0].value = response.data.filter(
+              (x) => x.managerId == this.currentUser.id && x.status
+            ).length;
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+      }
+    },
+  },
+  computed: {
+    currentUser() {
+      return this.$store.state.auth.user;
+    },
+  },
+  mounted() {
+    if (!this.currentUser) {
+      this.$router.push("/login");
+    }
+    this.getUserInvitations();
+    this.getUrls();
+  },
 };
 </script>
 <style>

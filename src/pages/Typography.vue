@@ -68,7 +68,6 @@ export default {
       if (this.currentUser) {
         await UrlProxy.searchUrl(null, this.currentUser.id)
           .then((response) => {
-            console.log(response.data);
             this.model.chrome.data = response.data.filter(
               (x) => x.browser === "Chrome"
             );

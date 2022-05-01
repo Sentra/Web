@@ -66,7 +66,7 @@
 
       <div class="col-md-6 col-12 bg-white" style="margin: 0.75rem 0 2rem 0">
         <h5 style="font-size: 1.5em; font-weight: 300; color: #252422">Capturas de pantalla</h5>
-        <h6 style="color: #9A9A9A; margin-top: -1; display: block; font-size: 14px">Capturas realizadas en las últimas 24 horas</h6>
+        <h6 style="color: #9A9A9A; margin-top: -1rem; display: block; font-size: 14px; text-transform: none; font-weight: 400">Capturas realizadas en las últimas 24 horas</h6>
         <v-row class="mt-2">
           <v-col v-for="screenshot in screenshots" :key="screenshot.id">
             <v-img

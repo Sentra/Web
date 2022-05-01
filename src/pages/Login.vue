@@ -131,6 +131,13 @@ export default {
               (error.response && error.response.data) ||
               error.message ||
               error.toString();
+            this.$notify({
+              title: "Contraseña o correo inválido",
+              icon: "fa-solid fa-circle-exclamation",
+              horizontalAlign: "center",
+              verticalAlign: "top",
+              type: "warning",
+            });
           }
         );
       }

@@ -32,8 +32,8 @@ export default {
           .then(async (response) => {
             const result = [];
             response.data.forEach((element) => {
-              element.startDate = this.fixDates(element.startDate);
-              element.endDate = this.fixDates(element.endDate);
+              element.startDate = new Date(element.startDate).toLocaleString();
+              element.endDate = new Date(element.endDate).toLocaleString();
               result.push(element);
             });
             this.programs = result;
@@ -42,12 +42,6 @@ export default {
             console.log(e);
           });
       }
-    },
-    fixDates(date) {
-      if (!date) return date;
-      const [dt, time] = date.split("T");
-      const [year, month, day] = dt.split("-");
-      return `${day}/${month}/${year} ${time.slice(0, 5)}`;
     },
   },
   computed: {

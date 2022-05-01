@@ -78,8 +78,8 @@
             ></v-img>
           </v-col>
         </v-row>
-        <hr class="d-block" style="margin-top: 2.5rem; display: block" />
-        <span style="color: #a9a9a9" slot="footer">
+        <hr class="d-block" style="margin-top: 3.5rem; display: block" />
+        <span style="color: #a9a9a9; margin-top: -.25rem; display: block" slot="footer">
           <i class="ti-timer ml-2"></i>Actualizado recientemente</span
         >
       </div>

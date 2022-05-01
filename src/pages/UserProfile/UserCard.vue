@@ -22,7 +22,7 @@
           <h5>
             Invitaciones enviadas
             <br />
-            <v-btn elevation="0" to="table-list">{{
+            <v-btn elevation="0" to="notifications">{{
               model.invitations_sent
             }}</v-btn>
           </h5>
@@ -31,7 +31,7 @@
           <h5>
             Invitaciones recibidas
             <br />
-            <v-btn elevation="0" to="table-list">{{
+            <v-btn elevation="0" to="notifications">{{
               model.invitations_received
             }}</v-btn>
           </h5>

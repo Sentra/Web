@@ -3,12 +3,13 @@
     <v-tabs centered class="pt-8">
       <v-tab> Equipo </v-tab>
       <v-tab> Invitaciones </v-tab>
+      <v-tab> Solicitudes </v-tab>
       <v-tab-item>
         <v-card class="mx-auto mt-8" flat>
           <v-data-table
-            :headers="headers"
+            :headers="headersTeamMembers"
             :items="members"
-            :items-per-page="10"
+            :items-per-page="5"
           >
           </v-data-table>
         </v-card>
@@ -51,26 +52,52 @@
           </v-form>
         </v-card>
       </v-tab-item>
+      <v-tab-item>
+        <v-card class="mx-auto mt-8" flat>
+          <h4 class="ml-4">Solicitudes recibidas</h4>
+          <v-data-table
+            :headers="headersInvitationRequest"
+            :items="invitations"
+            :items-per-page="5"
+          >
+            <template v-slot:[`item.actions`]="{ item }">
+              <v-icon
+                small
+                class="mr-2"
+                @click="resolveInvitation(item.id, true)"
+              >
+                mdi-check
+              </v-icon>
+              <v-icon small @click="resolveInvitation(item.id, false)">
+                mdi-cancel
+              </v-icon>
+            </template>
+          </v-data-table>
+        </v-card>
+      </v-tab-item>
     </v-tabs>
   </v-card>
 </template>
 <script>
-import { PaperTable } from "@/components";
 import UserProxy from "@/proxies/user.proxy";
 import InvitationProxy from "@/proxies/invitation.proxy";
 export default {
-  components: {
-    PaperTable,
-  },
   data() {
     return {
       isValid: true,
-      headers: [
+      headersTeamMembers: [
         { text: "Nombre", value: "firstName" },
         { text: "Apellido", value: "lastName" },
         { text: "Email", value: "email" },
       ],
+      headersInvitationRequest: [
+        { text: "Nombre", value: "firstName" },
+        { text: "Apellido", value: "lastName" },
+        { text: "Email", value: "email" },
+        { text: "Acciones", value: "actions", sortable: false },
+      ],
       members: [],
+      invitations: [],
       nameRules: [(v) => !!v || "Nombre es requerido"],
       emailRules: [
         (v) => !!v || "Email es requerido",
@@ -91,12 +118,12 @@ export default {
       if (this.currentUser) {
         await InvitationProxy.searchInvitation()
           .then(async (response) => {
-            const filter = response.data.filter(
+            const filteredData = response.data.filter(
               (x) => x.managerId == this.currentUser.id && x.status
             );
-            for (let index = 0; index < filter.length; index++) {
+            for (let index = 0; index < filteredData.length; index++) {
               let user = await UserProxy.searchUser(
-                filter[index].email,
+                filteredData[index].email,
                 null,
                 null
               );
@@ -121,7 +148,12 @@ export default {
         };
         await InvitationProxy.createInvitation(model)
           .then((response) => {
-            console.log(response.data);
+            this.$notify({
+              title: `La invitación fue enviada a ${response.data.email} satisfactoriamente`,
+              horizontalAlign: "center",
+              verticalAlign: "top",
+              type: "success",
+            });
           })
           .catch((e) => {
             this.$notify({
@@ -131,17 +163,72 @@ export default {
               verticalAlign: "top",
               type: "warning",
             });
+          });
+      }
+    },
+    async getInvitacions() {
+      if (this.currentUser) {
+        await InvitationProxy.searchInvitation()
+          .then(async (response) => {
+            const filteredData = response.data.filter(
+              (x) => x.guestId == this.currentUser.id && !x.status
+            );
+            for (let index = 0; index < filteredData.length; index++) {
+              let user = await UserProxy.searchUser(
+                null,
+                filteredData[index].managerId,
+                null
+              );
+              this.invitations.push({
+                id: filteredData[index].id,
+                firstName: user.data[0].firstName,
+                lastName: user.data[0].lastName,
+                email: user.data[0].email,
+              });
+            }
+          })
+          .catch((e) => {
             console.log(e);
           });
       }
     },
-      getErrorMessage(e) {
+    async resolveInvitation(invitationId, status) {
+      if (this.currentUser) {
+        await InvitationProxy.updateInvitation(
+          invitationId,
+          this.currentUser.id,
+          status
+        )
+          .then(async (response) => {
+            this.$notify({
+              title: `La invitación fue ${
+                status ? "aceptada" : "rechazada"
+              } correctamente`,
+              horizontalAlign: "center",
+              verticalAlign: "top",
+              type: "success",
+            });
+          })
+          .catch((e) => {
+            this.$notify({
+              title: `La invitación fue ${status ? "aceptada" : "rechazada"}`,
+              horizontalAlign: "center",
+              verticalAlign: "top",
+              type: "warning",
+            });
+            console.log(e);
+          });
+      }
+    },
+    getErrorMessage(e) {
       switch (e) {
         case (e = "The guest that you try to invite doesnt exist"):
           return "El usuario que tratas de invitar no existe.";
         case (e =
           "Cannot create another invitation to this guest user because you have an existing one"):
           return "No se puede invitar a este usuario porque tiene una invitación pendiente.";
+        case (e = "Cannot send an invite to yourself"):
+          return "No puedes invitarte a ti mismo.";
         default:
           return e;
       }
@@ -157,6 +244,7 @@ export default {
       this.$router.push("/login");
     }
     this.getTeamMembers();
+    this.getInvitacions();
   },
 };
 </script>

@@ -1,66 +1,76 @@
 <template>
   <div class="row">
     <h3 class="ml-4">Actividades</h3>
-    <div class="col-12">
-      <v-card class="mx-auto mt-8" flat>
-        <h4 class="ml-2">Historial de navegación de Chrome</h4>
-        <v-data-table
-          :headers="headers"
-          :items="model.chrome.data"
-          :items-per-page="10"
-        >
-        </v-data-table>
-      </v-card>
-    </div>
-
-    <div class="col-12">
-      <v-card class="mx-auto mt-8" flat>
-        <h4 class="ml-2">Historial de navegación de Opera</h4>
-        <v-data-table
-          :headers="headers"
-          :items="model.chrome.opera"
-          :items-per-page="10"
-        >
-        </v-data-table>
-      </v-card>
-    </div>
+    <v-tabs centered class="pt-8">
+      <v-tab v-for="item in model" :key="item.index" v-if="item.data.length">{{
+        item.name
+      }}</v-tab>
+      <v-tab-item
+        v-for="item in model"
+        :key="item.index"
+        style="table-layout: fixed !important"
+      >
+        <v-card class="mx-auto mt-8 p-1" flat>
+          <h4 class="ml-4">{{ item.title }}</h4>
+          <v-data-table
+            :search="search"
+            :headers="headers"
+            :items="item.data"
+            :items-per-page="5"
+          >
+            <template v-slot:top>
+              <v-text-field
+                v-model="search"
+                label="Busca por título o url"
+                class="mx-4"
+                append-icon="mdi-magnify"
+              ></v-text-field>
+            </template>
+          </v-data-table>
+        </v-card>
+      </v-tab-item>
+      <h5 class="mx-auto m-auto mb-2" v-if="!hasHistory">
+        No se ha registrado ninguna página por el momento.
+      </h5>
+    </v-tabs>
   </div>
 </template>
 <script>
 import UrlProxy from "@/proxies/url.proxy";
-import { PaperTable } from "@/components";
 
 export default {
-  components: {
-    PaperTable,
-  },
   data() {
     return {
+      search: "",
       headers: [
-        { text: "Id", value: "id" },
-        { text: "Titulo", value: "title" },
-        { text: "Url", value: "uri" },
-        { text: "Tiempo", value: "time" },
-        { text: "Fecha", value: "date" },
+        { text: "Titulo", value: "title", width: "250px" },
+        { text: "Url", value: "uri", width: "400px" },
+        { text: "Fecha", value: "date", width: "150px" },
+        { text: "Hora", value: "time", width: "100px" },
       ],
-      model: {
-        chrome: {
+      hasHistory: false,
+      model: [
+        {
           name: "Chrome",
+          title: "Historial de navegación de Chrome",
           data: [],
         },
-        opera: {
+        {
           name: "Opera",
+          title: "Historial de navegación de Opera",
           data: [],
         },
-        firefox: {
+        {
           name: "Firefox",
+          title: "Historial de navegación de Firefox",
           data: [],
         },
-        edge: {
+        {
           name: "Edge",
+          title: "Historial de navegación de Edge",
           data: [],
         },
-      },
+      ],
     };
   },
   methods: {
@@ -68,17 +78,39 @@ export default {
       if (this.currentUser) {
         await UrlProxy.searchUrl(null, this.currentUser.id)
           .then((response) => {
-            this.model.chrome.data = response.data.filter(
+            const result = [];
+            if (response.data.length && !this.hasHistory) this.hasHistory = true;
+            response.data.forEach((element) => {
+              element.date = this.fixDates(element.date);
+              element.time = this.fixTime(element.time);
+              result.push(element);
+            });
+            this.model.find((x) => x.name === "Chrome").data = result.filter(
               (x) => x.browser === "Chrome"
             );
-            this.model.opera.data = response.data.filter(
+            this.model.find((x) => x.name === "Opera").data = result.filter(
               (x) => x.browser === "Opera"
+            );
+            this.model.find((x) => x.name === "Firefox").data = result.filter(
+              (x) => x.browser === "Firefox"
+            );
+            this.model.find((x) => x.name === "Edge").data = result.filter(
+              (x) => x.browser === "Edge"
             );
           })
           .catch((e) => {
             console.log(e);
           });
       }
+    },
+    fixDates(date) {
+      if (!date) return date;
+      const [year, month, day] = date.split("-");
+      return `${day}/${month}/${year}`;
+    },
+    fixTime(time) {
+      if (!time) return time;
+      return time.slice(0, time.length - 3);
     },
   },
   computed: {
@@ -94,5 +126,6 @@ export default {
   },
 };
 </script>
-<style>
+<style lang="scss">
 </style>
+

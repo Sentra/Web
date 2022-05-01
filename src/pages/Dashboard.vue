@@ -30,14 +30,14 @@
     <div class="row">
       <div class="col-12">
         <chart-card
-          title="Users behavior"
-          sub-title="24 Hours performance"
+          title="Actividad de los programas utilizados"
+          sub-title="Ultimas 24 horas de programas utilizados"
           :chart-data="usersChart.data"
           :chart-options="usersChart.options"
         >
           <span slot="footer">
-            <i class="ti-reload"></i> Updated 3 minutes ago
-          </span>
+            <i class="ti-timer"></i>Actualizado recientemente</span
+          >
           <div slot="legend">
             <i class="fa fa-circle text-info"></i> Open
             <i class="fa fa-circle text-danger"></i> Click
@@ -46,39 +46,42 @@
         </chart-card>
       </div>
 
-      <div class="col-md-6 col-12">
+      <div class="col-md-6 col-12" v-if="data.labels.length > 0">
         <chart-card
-          title="Páginas mas visitadas"
-          sub-title="Las últimas páginas mas visitadas"
-          :chart-data="preferencesChart.data"
+          title="Páginas más visitadas"
+          sub-title="Las últimas páginas más visitadas"
+          :chart-data="data"
           chart-type="Pie"
         >
           <span slot="footer">
             <i class="ti-timer"></i>Actualizado recientemente</span
           >
           <div slot="legend">
-            <i class="fa fa-circle text-info"></i> Open
-            <i class="fa fa-circle text-danger"></i> Bounce
-            <i class="fa fa-circle text-warning"></i> Unsubscribe
+            <i class="fa fa-circle text-info"></i> {{ visitedPages[1].name }}
+            <i class="fa fa-circle text-warning"></i>{{ visitedPages[2].name }}
+            <i class="fa fa-circle text-danger"></i> {{ visitedPages[0].name }}
           </div>
         </chart-card>
       </div>
 
-      <div class="col-md-6 col-12">
-        <chart-card
-          title="2015 Sales"
-          sub-title="All products including Taxes"
-          :chart-data="activityChart.data"
-          :chart-options="activityChart.options"
+      <div class="col-md-6 col-12 bg-white" style="margin: 0.75rem 0 2rem 0">
+        <h5 style="font-size: 1.5em; font-weight: 300; color: #252422">Capturas de pantalla</h5>
+        <h7 style="color: #9A9A9A; margin-top: -1; display: block; font-size: 14px">Capturas realizadas en las últimas 24 horas</h7>
+        <v-row class="mt-2">
+          <v-col v-for="screenshot in screenshots" :key="screenshot.id">
+            <v-img
+              :src="screenshot.blob"
+              :lazy-src="screenshot.blob"
+              width="130px"
+              :alt="screenshot.name"
+              aspect-ratio="1"
+            ></v-img>
+          </v-col>
+        </v-row>
+        <hr class="d-block" style="margin-top: 2.5rem; display: block" />
+        <span style="color: #a9a9a9" slot="footer">
+          <i class="ti-timer ml-2"></i>Actualizado recientemente</span
         >
-          <span slot="footer">
-            <i class="ti-check"></i> Data information certified
-          </span>
-          <div slot="legend">
-            <i class="fa fa-circle text-info"></i> Tesla Model S
-            <i class="fa fa-circle text-warning"></i> BMW 5 Series
-          </div>
-        </chart-card>
       </div>
     </div>
   </div>
@@ -88,6 +91,7 @@ import { StatsCard, ChartCard } from "@/components/index";
 import Chartist from "chartist";
 import InvitationProxy from "@/proxies/invitation.proxy";
 import UrlProxy from "@/proxies/url.proxy";
+import ScreenshotProxy from "@/proxies/screenshot.proxy";
 export default {
   components: {
     StatsCard,
@@ -191,16 +195,28 @@ export default {
           height: "245px",
         },
       },
-      preferencesChart: {
-        data: {
-          labels: ["62%", "32%", "6%"],
-          series: [62, 32, 6],
-        },
-        options: {},
+      data: {
+        labels: [],
+        series: [],
       },
+      visitedPages: [{ name: "" }, { name: "" }, { name: "Otros" }],
+      screenshots: [],
     };
   },
   methods: {
+    async getTeamMembers() {
+      if (this.currentUser) {
+        await InvitationProxy.searchInvitation()
+          .then(async (response) => {
+            this.statsCards[0].value = response.data.filter(
+              (x) => x.managerId == this.currentUser.id && x.status
+            ).length;
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+      }
+    },
     async getUserInvitations() {
       if (this.currentUser) {
         await InvitationProxy.searchInvitation(null, this.currentUser.id)
@@ -225,13 +241,75 @@ export default {
           });
       }
     },
-    async getTeamMembers() {
+    async getScreenshots() {
       if (this.currentUser) {
-        await InvitationProxy.searchInvitation()
+        await ScreenshotProxy.searchScreenshot(this.currentUser.id, null)
           .then(async (response) => {
-            this.statsCards[0].value = response.data.filter(
-              (x) => x.managerId == this.currentUser.id && x.status
-            ).length;
+            this.screenshots = response.data.slice(0, 6);
+            this.statsCards[3].value = response.data.length;
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+      }
+    },
+    async getMostVisitedPages() {
+      if (this.currentUser) {
+        await UrlProxy.searchUrl(null, this.currentUser.id)
+          .then((response) => {
+            const uris = [];
+            response.data.forEach((page) => {
+              const host = new URL(page.uri).host;
+              if (host != "" && host != null && host != undefined) {
+                uris.push(host);
+              }
+            });
+
+            const groups = (arr) => {
+              return arr.reduce(
+                (acc, val) => {
+                  const { data, map } = acc;
+                  const ind = map.get(val);
+                  if (map.has(val)) {
+                    data[ind][1]++;
+                  } else {
+                    map.set(val, data.push([val, 1]) - 1);
+                  }
+                  return { data, map };
+                },
+                {
+                  data: [],
+                  map: new Map(),
+                }
+              ).data;
+            };
+
+            var sortedArray = groups(uris).sort((a, b) => {
+              return a[1] - b[1];
+            });
+
+            const secondToLastPagePercentage = Math.round(
+              (sortedArray[sortedArray.length - 2][1] / uris.length) * 100
+            );
+            const lastPagePercentage = Math.round(
+              (sortedArray[sortedArray.length - 1][1] / uris.length) * 100
+            );
+            const otherPagesPercentage =
+              100 - secondToLastPagePercentage - lastPagePercentage;
+
+            this.visitedPages[0].name = sortedArray[sortedArray.length - 1][0];
+            this.visitedPages[1].name = sortedArray[sortedArray.length - 2][0];
+
+            this.data.labels = [
+              `${lastPagePercentage}%`,
+              `${secondToLastPagePercentage}%`,
+              `${otherPagesPercentage}%`,
+            ];
+            this.data.series = [
+              lastPagePercentage,
+              secondToLastPagePercentage,
+              otherPagesPercentage,
+            ];
           })
           .catch((e) => {
             console.log(e);
@@ -250,6 +328,8 @@ export default {
     }
     this.getUserInvitations();
     this.getUrls();
+    this.getMostVisitedPages();
+    this.getScreenshots();
   },
 };
 </script>

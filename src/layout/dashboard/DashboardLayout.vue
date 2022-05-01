@@ -5,9 +5,10 @@
         <sidebar-link to="/dashboard" name="Home" icon="ti-panel" />
         <sidebar-link to="/typography" name="Actividades" icon="ti-text" />
         <sidebar-link to="/notifications" name="Mi equipo" icon="ti-bell" />
+        <sidebar-link to="/icons" name="Capturas" icon="ti-settings" />
         <sidebar-link
           to="/table-list"
-          name="Grupos"
+          name="Programas"
           icon="ti-view-list-alt"
         />
         <sidebar-link to="/stats" name="Perfil" icon="ti-user" />

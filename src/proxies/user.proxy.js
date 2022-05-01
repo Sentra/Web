@@ -11,10 +11,10 @@ class UserProxy {
         if (userId) query += `${query.length === 1 ? `userId=${userId}` : `&userId=${userId}`}`;
         if (managerId) query += `${query.length === 1 ? `managerId=${managerId}` : `&managerId=${managerId}`}`;
 
-        return await http.get(`/user${query}`, { headers: authHeader() })
+        return await http.get(`/user${query}`);
     }
     async updateUser(data) {
-        return await http.put(`/user`, data, { headers: authHeader() })
+        return await http.put(`/user`, data);
     }
 }
 

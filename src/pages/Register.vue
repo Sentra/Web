@@ -192,6 +192,12 @@ export default {
     handleRegister() {
       UserProxy.createUser(this.model)
         .then(() => {
+          this.$notify({
+            title: `Su cuenta se ha creado correctamente`,
+            horizontalAlign: "center",
+            verticalAlign: "top",
+            type: "success",
+          });
           this.$router.push("/login");
         })
         .catch((e) => {

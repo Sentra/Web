@@ -208,15 +208,18 @@ export default {
               verticalAlign: "top",
               type: "success",
             });
+            window.location.reload();
           })
           .catch((e) => {
             this.$notify({
-              title: `La invitación fue ${status ? "aceptada" : "rechazada"}`,
+              title: `La invitación fue ${
+                status ? "aceptada" : "rechazada"
+              } correctamente`,
               horizontalAlign: "center",
               verticalAlign: "top",
               type: "warning",
             });
-            console.log(e);
+            window.location.reload();
           });
       }
     },

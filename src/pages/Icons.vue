@@ -8,13 +8,14 @@
       <div v-else>
         <v-row>
           <v-col v-for="screenshot in screenshots" :key="screenshot.id">
-            <v-img
+            <enlargeable-image :src="screenshot.blob" :src_large="screenshot.blob"  />
+            <!-- <v-img
               :src="screenshot.blob"
               :lazy-src="screenshot.blob"
               width="300px"
               :alt="screenshot.name"
               aspect-ratio="1"
-            ></v-img>
+            ></v-img> -->
             <h6 class="mt-2 ml-4">{{ screenshot.name }}</h6>
           </v-col>
         </v-row>
@@ -24,7 +25,11 @@
 </template>
 <script>
 import ScreenshotProxy from "@/proxies/screenshot.proxy";
+import EnlargeableImage from '@diracleo/vue-enlargeable-image';
 export default {
+    components: {
+    EnlargeableImage
+  },
   data() {
     return {
       screenshots: [],

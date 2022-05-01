@@ -6,7 +6,9 @@ import PaperDashboard from "./plugins/paperDashboard";
 import "vue-notifyjs/themes/default.css";
 import store from './store'
 import vuetify from './plugins/vuetify'
+import EnlargeableImage from '@diracleo/vue-enlargeable-image';
 
+Vue.use(EnlargeableImage)
 Vue.use(PaperDashboard)
 
 /* eslint-disable no-new */

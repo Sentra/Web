@@ -20,7 +20,7 @@ export default {
         { text: "Aplicación", value: "description" },
         { text: "Fecha de inicio", value: "startDate" },
         { text: "Fecha de fin", value: "endDate" },
-        { text: "Tiempo utilizado (en horas)", value: "timeUsed" },
+        { text: "Tiempo utilizado (en minutos)", value: "timeUsed" },
       ],
       programs: [],
     };
@@ -34,7 +34,12 @@ export default {
             response.data.forEach((element) => {
               element.startDate = new Date(element.startDate).toLocaleString();
               element.endDate = new Date(element.endDate).toLocaleString();
-              result.push(element);
+              if (
+                element.description.trim() &&
+                element.startDate &&
+                element.endDate
+              )
+                result.push(element);
             });
             this.programs = result;
           })

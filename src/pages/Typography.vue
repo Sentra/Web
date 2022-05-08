@@ -1,38 +1,51 @@
 <template>
   <div class="row">
-    <h3 class="ml-4">Actividades</h3>
-    <v-tabs centered class="pt-8">
-      <v-tab v-for="item in model" :key="item.index" v-if="item.data.length">{{
-        item.name
-      }}</v-tab>
-      <v-tab-item
-        v-for="item in model"
-        :key="item.index"
-        style="table-layout: fixed !important"
-      >
-        <v-card class="mx-auto mt-8 p-1" flat>
-          <h4 class="ml-4">{{ item.title }}</h4>
-          <v-data-table
-            :search="search"
-            :headers="headers"
-            :items="item.data"
-            :items-per-page="5"
-          >
-            <template v-slot:top>
-              <v-text-field
-                v-model="search"
-                label="Busca por título o url"
-                class="mx-4"
-                append-icon="mdi-magnify"
-              ></v-text-field>
-            </template>
-          </v-data-table>
-        </v-card>
-      </v-tab-item>
-      <h5 class="mx-auto m-auto mb-2" v-if="!hasHistory">
-        No se ha registrado ninguna página por el momento.
-      </h5>
-    </v-tabs>
+    <div class="col-12">
+      <div class="d-flex">
+        <h4 class="ml-3">Actividades de las páginas</h4>
+        <v-card-actions style="margin: 1rem 2rem 0 auto">
+          <v-btn @click="getUrls">Actualizar</v-btn>
+        </v-card-actions>
+      </div>
+      <v-tabs centered class="pt-8">
+        <v-tab
+          v-for="item in model"
+          :key="item.index"
+          v-if="item.data.length"
+          >{{ item.name }}</v-tab
+        >
+        <v-tab-item
+          v-for="item in model"
+          :key="item.index"
+          style="table-layout: fixed !important"
+        >
+          <v-card class="mx-auto mt-8 p-1" flat>
+            <h4 class="ml-4">{{ item.title }}</h4>
+            <v-data-table
+              :search="search"
+              :headers="headers"
+              :items="item.data"
+              :items-per-page="5"
+            >
+              <template v-slot:top>
+                <v-text-field
+                  v-model="search"
+                  label="Busca por título o url"
+                  class="mx-4"
+                  append-icon="mdi-magnify"
+                ></v-text-field>
+              </template>
+            </v-data-table>
+          </v-card>
+        </v-tab-item>
+      </v-tabs>
+      <div class="mx-auto" v-if="!hasData">
+        <div class="text-center">
+          <i class="fas fa-folder-open fa-4x"></i>
+        </div>
+        <p class="mt-2">No se encontraron registros.</p>
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -48,7 +61,7 @@ export default {
         { text: "Fecha", value: "date", width: "150px" },
         { text: "Hora", value: "time", width: "100px" },
       ],
-      hasHistory: false,
+      hasData: false,
       model: [
         {
           name: "Chrome",
@@ -79,7 +92,7 @@ export default {
         await UrlProxy.searchUrl(null, this.currentUser.id)
           .then((response) => {
             const result = [];
-            if (response.data.length && !this.hasHistory) this.hasHistory = true;
+            if (response.data.length && !this.hasData) this.hasData = true;
             response.data.forEach((element) => {
               element.date = this.fixDates(element.date);
               element.time = this.fixTime(element.time);

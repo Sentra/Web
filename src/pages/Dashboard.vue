@@ -86,13 +86,11 @@
         </h6>
         <v-row class="mt-2">
           <v-col v-for="screenshot in screenshots" :key="screenshot.id">
-            <v-img
+            <enlargeable-image
               :src="screenshot.blob"
-              :lazy-src="screenshot.blob"
-              width="130px"
-              :alt="screenshot.name"
-              aspect-ratio="1"
-            ></v-img>
+              :src_large="screenshot.blob"
+              style="width: 200px; height: 130px; margin: auto"
+            />
           </v-col>
         </v-row>
         <hr class="d-block" style="margin-top: 3.5rem; display: block" />
@@ -112,10 +110,12 @@ import Chartist from "chartist";
 import InvitationProxy from "@/proxies/invitation.proxy";
 import UrlProxy from "@/proxies/url.proxy";
 import ScreenshotProxy from "@/proxies/screenshot.proxy";
+import EnlargeableImage from "@diracleo/vue-enlargeable-image";
 export default {
   components: {
     StatsCard,
     ChartCard,
+    EnlargeableImage,
   },
   data() {
     return {
@@ -228,9 +228,10 @@ export default {
       if (this.currentUser) {
         await InvitationProxy.searchInvitation()
           .then(async (response) => {
-            this.statsCards[0].value = response.data.filter(
+            const filter = response.data.filter(
               (x) => x.managerId == this.currentUser.id && x.status
-            ).length;
+            );
+            this.statsCards[0].value = filter.length;
           })
           .catch((e) => {
             console.log(e);
@@ -239,7 +240,7 @@ export default {
     },
     async getUserInvitations() {
       if (this.currentUser) {
-        await InvitationProxy.searchInvitation(null, this.currentUser.id)
+        await InvitationProxy.searchInvitation(null, null, this.currentUser.email)
           .then((response) => {
             this.statsCards[1].value = response.data.filter(
               (x) => !x.status

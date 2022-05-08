@@ -5,10 +5,11 @@ class InvitationProxy {
     async createInvitation(data) {
         return await http.post(`/invitation`, data, { headers: authHeader() });
     }
-    async searchInvitation(managerId, guestId) {
+    async searchInvitation(managerId, guestId, guestEmail) {
         let query = '?';
         if (managerId) query += `${query.length === 1 ? `managerId=${managerId}` : `&managerId=${managerId}`}`;
         if (guestId) query += `${query.length === 1 ? `guestId=${guestId}` : `&guestId=${guestId}`}`;
+        if (guestEmail) query += `${query.length === 1 ? `guestEmail=${guestEmail}` : `&guestEmail=${guestEmail}`}`;
 
         return await http.get(`/invitation${query}`, { headers: authHeader() });
     }

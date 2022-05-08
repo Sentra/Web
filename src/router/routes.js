@@ -25,18 +25,18 @@ const routes = [
         component: Dashboard
       },
       {
-        path: "stats",
-        name: "stats",
+        path: "profile",
+        name: "profile",
         component: UserProfile
       },
       {
-        path: "notifications",
-        name: "notifications",
+        path: "team",
+        name: "team",
         component: Notifications
       },
       {
-        path: "icons",
-        name: "icons",
+        path: "screenshots",
+        name: "screenshots",
         component: Icons
       },
       {
@@ -45,13 +45,13 @@ const routes = [
         component: Maps
       },
       {
-        path: "typography",
-        name: "typography",
+        path: "activities",
+        name: "activities",
         component: Typography
       },
       {
-        path: "table-list",
-        name: "table-list",
+        path: "programs",
+        name: "programs",
         component: TableList
       }
     ]

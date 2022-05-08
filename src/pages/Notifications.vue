@@ -38,7 +38,7 @@
                 </v-text-field>
               </div>
             </div>
-            <div class="text-center">
+            <div class="text-center mt-3">
               <p-button
                 type="info"
                 round
@@ -171,7 +171,7 @@ export default {
         await InvitationProxy.searchInvitation()
           .then(async (response) => {
             const filteredData = response.data.filter(
-              (x) => x.guestId == this.currentUser.id && !x.status
+              (x) => x.email == this.currentUser.email && !x.status
             );
             for (let index = 0; index < filteredData.length; index++) {
               let user = await UserProxy.searchUser(
@@ -228,8 +228,8 @@ export default {
         case (e = "The guest that you try to invite doesnt exist"):
           return "El usuario que tratas de invitar no existe.";
         case (e =
-          "Cannot create another invitation to this guest user because you have an existing one"):
-          return "No se puede invitar a este usuario porque tiene una invitación pendiente.";
+          "Cannot send another invitation to this guest user because you have an existing one"):
+          return "No se puede volver a invitar a este usuario porque tiene una invitación pendiente.";
         case (e = "Cannot send an invite to yourself"):
           return "No puedes invitarte a ti mismo.";
         default:

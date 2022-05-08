@@ -64,7 +64,7 @@ export default {
             console.log(e);
           });
 
-        await InvitationProxy.searchInvitation(null, this.currentUser.id)
+        await InvitationProxy.searchInvitation(null, null, this.currentUser.email)
           .then((response) => {
             this.model.invitations_received = response.data.filter(
               (x) => !x.status

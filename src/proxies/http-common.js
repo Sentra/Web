@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export default axios.create({
-    baseURL: 'https://localhost:7046/api',
+    baseURL: 'https://montracapi20220507053436.azurewebsites.net/api',
     headers: {
         'Content-type': 'application/json'
     }

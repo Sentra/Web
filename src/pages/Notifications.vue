@@ -232,6 +232,8 @@ export default {
           return "No se puede volver a invitar a este usuario porque tiene una invitación pendiente.";
         case (e = "Cannot send an invite to yourself"):
           return "No puedes invitarte a ti mismo.";
+        case (e = "Cannot send an invitation to this guest user because its already on your team"):
+          return "No se puede volver a invitar a este usuario porque ya se encuentra en tu equipo.";
         default:
           return e;
       }

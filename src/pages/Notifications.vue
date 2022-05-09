@@ -11,6 +11,14 @@
             :items="members"
             :items-per-page="5"
           >
+            <template v-slot:[`item.actions`]="{ item }">
+              <v-btn elevation="0" @click="$router.push(`/team/${item.id}/information`)">
+                <i
+                  class="fas fa-search"
+                  style="color: rgb(102, 97, 91)"
+                ></i>
+              </v-btn>
+            </template>
           </v-data-table>
         </v-card>
       </v-tab-item>
@@ -89,6 +97,7 @@ export default {
         { text: "Nombre", value: "firstName" },
         { text: "Apellido", value: "lastName" },
         { text: "Email", value: "email" },
+        { text: "Ver", value: "actions", sortable: false },
       ],
       headersInvitationRequest: [
         { text: "Nombre", value: "firstName" },
@@ -128,6 +137,7 @@ export default {
                 null
               );
               this.members.push({
+                id: user.data[0].id,
                 firstName: user.data[0].firstName,
                 lastName: user.data[0].lastName,
                 email: user.data[0].email,
@@ -232,7 +242,8 @@ export default {
           return "No se puede volver a invitar a este usuario porque tiene una invitación pendiente.";
         case (e = "Cannot send an invite to yourself"):
           return "No puedes invitarte a ti mismo.";
-        case (e = "Cannot send an invitation to this guest user because its already on your team"):
+        case (e =
+          "Cannot send an invitation to this guest user because its already on your team"):
           return "No se puede volver a invitar a este usuario porque ya se encuentra en tu equipo.";
         default:
           return e;

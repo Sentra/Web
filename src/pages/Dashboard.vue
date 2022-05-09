@@ -347,7 +347,7 @@ export default {
     if (!this.currentUser) {
       this.$router.push("/login");
     }
-    this.getUserInvitations();
+    this.getTeamMembers();
     this.getUrls();
     this.getMostVisitedPages();
     this.getScreenshots();

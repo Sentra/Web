@@ -8,6 +8,7 @@ import Register from "@/pages/Register.vue";
 import Dashboard from "@/pages/Dashboard.vue";
 import UserProfile from "@/pages/UserProfile.vue";
 import Notifications from "@/pages/Notifications.vue";
+import Information from "@/pages/Information.vue";
 import Icons from "@/pages/Icons.vue";
 import Maps from "@/pages/Maps.vue";
 import Typography from "@/pages/Typography.vue";
@@ -33,6 +34,11 @@ const routes = [
         path: "team",
         name: "team",
         component: Notifications
+      },
+      {
+        path: "/team/:id/information",
+        name: "/team/:id/information",
+        component: Information
       },
       {
         path: "screenshots",

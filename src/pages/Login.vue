@@ -66,7 +66,7 @@
             >Iniciar Sesión</v-btn
           >
         </v-card-actions>
-        <v-card-actions>
+        <!-- <v-card-actions>
           <v-btn
             id="register"
             to="/register"
@@ -78,7 +78,7 @@
             type="submit"
             >Aun no tienes cuenta</v-btn
           >
-        </v-card-actions>
+        </v-card-actions> -->
       </v-form>
     </v-card>
   </div>

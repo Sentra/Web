@@ -3,31 +3,19 @@
     <div>
       <v-form @submit.prevent v-model="isValid">
         <div class="row">
-          <div class="col-md-4">
-            <v-text-field
-              type="text"
-              label="Id"
-              :disabled="true"
-              placeholder="Id"
-              v-model="user.id"
-            >
-            </v-text-field>
-          </div>
-          <div class="col-md-4">
+          <div class="col-md-6">
             <v-text-field
               type="text"
               label="Nombres"
-              :disabled="true"
               placeholder="Nombres"
               v-model="user.firstName"
             >
             </v-text-field>
           </div>
-          <div class="col-md-4">
+          <div class="col-md-6">
             <v-text-field
               type="text"
               label="Apellidos"
-              :disabled="true"
               placeholder="Apellidos"
               v-model="user.lastName"
             >
@@ -50,7 +38,6 @@
             <v-text-field
               type="identification"
               label="DNI"
-              :disabled="true"
               placeholder="DNI"
               v-model="user.identification"
             >

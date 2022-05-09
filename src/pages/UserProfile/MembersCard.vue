@@ -22,9 +22,15 @@
             </div>
 
             <div class="col-3">
-              <p-button type="success" outline icon>
-                <i class="fa fa-envelope"></i>
-              </p-button>
+              <v-btn
+                type="success"
+                outlined
+                icon
+                @click="$router.push(`/team/${member.id}/information`)"
+                style="color: #41b883"
+              >
+                <i class="fa fa-envelope" style="color: #41b883"></i>
+              </v-btn>
             </div>
           </div>
         </li>
@@ -56,7 +62,10 @@ export default {
                 null,
                 null
               );
-              this.members.push({ name: user.data[0].firstName });
+              this.members.push({
+                id: user.data[0].id,
+                name: user.data[0].firstName,
+              });
             }
           })
           .catch((e) => {

@@ -7,7 +7,7 @@
           <v-btn @click="getUrls">Actualizar</v-btn>
         </v-card-actions>
       </div>
-      <v-tabs centered class="pt-8">
+      <v-tabs centered class="pt-8" v-if="hasData">
         <v-tab
           v-for="item in model"
           :key="item.index"
@@ -39,11 +39,11 @@
           </v-card>
         </v-tab-item>
       </v-tabs>
-      <div class="mx-auto" v-if="!hasData">
+      <div class="mx-auto mt-5" v-if="!hasData">
         <div class="text-center">
           <i class="fas fa-folder-open fa-4x"></i>
         </div>
-        <p class="mt-2">No se encontraron registros.</p>
+        <p class="text-center mt-2">No se encontraron registros.</p>
       </div>
     </div>
   </div>

@@ -19,6 +19,14 @@ class InvitationProxy {
     async deleteInvitation(id) {
         return await http.delete(`/invitation/${id}`, { headers: authHeader() });
     }
+    async confirmPayment(name, email, suscription) {
+        let query = '?';
+        if (name) query += `${query.length === 1 ? `name=${name}` : `&name=${name}`}`;
+        if (email) query += `${query.length === 1 ? `email=${email}` : `&email=${email}`}`;
+        if (suscription) query += `${query.length === 1 ? `suscription=${suscription}` : `&suscription=${suscription}`}`;
+
+        return await http.post(`/confirm${query}`, { headers: authHeader() });
+    }
 }
 
 export default new InvitationProxy();

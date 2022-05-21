@@ -20,7 +20,7 @@
         <ul>
           <li>
             Las presentes condiciones generales regulan el uso de las
-            aplicaciones informáticas móviles y web (en adelante, la
+            aplicaciones informáticas desktop y web (en adelante, la
             “Aplicación”) de Montrac.
           </li>
           <li>

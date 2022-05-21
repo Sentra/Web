@@ -54,7 +54,7 @@
                 round
                 @click.native.prevent="sendInvitation"
                 :disabled="!isValid"
-                :style="!isValid ? { cursor: 'not-allowed'}: ''"
+                :style="!isValid ? { cursor: 'not-allowed' } : ''"
               >
                 Enviar
               </p-button>
@@ -97,6 +97,7 @@ export default {
     return {
       isValid: true,
       headersTeamMembers: [
+        { text: "Código", value: "id" },
         { text: "Nombre", value: "firstName" },
         { text: "Apellido", value: "lastName" },
         { text: "Email", value: "email" },

@@ -79,6 +79,11 @@
             >Aun no tienes cuenta</v-btn
           >
         </v-card-actions> -->
+        <div class="mx-auto mt-5">
+          <v-btn outlined class="text-center mx-auto" style="display: flex; width: 50%" dark small to="/privacy">
+            Políticas de privacidad
+          </v-btn>
+        </div>
       </v-form>
     </v-card>
   </div>

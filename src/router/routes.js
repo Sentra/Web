@@ -14,6 +14,7 @@ import Maps from "@/pages/Maps.vue";
 import Typography from "@/pages/Typography.vue";
 import TableList from "@/pages/TableList.vue";
 import Payment from "@/pages/Payment.vue";
+import Privacy from "@/pages/Privacy.vue";
 
 const routes = [
   {
@@ -66,6 +67,7 @@ const routes = [
   { path: "/login", name: "login", component: Login },
   { path: "/register", name: "register", component: Register },
   { path: "/payment", name: "payment", component: Payment },
+  { path: "/privacy", name: "privacy", component: Privacy },
   { path: "*", component: NotFound }
 ];
 

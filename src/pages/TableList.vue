@@ -4,7 +4,12 @@
       <div class="d-flex">
         <h4 class="ml-3">Actividad de los programas</h4>
         <v-card-actions style="margin: 1rem 2rem 0 auto">
-          <v-btn @click="getPrograms">Actualizar</v-btn>
+          <v-btn
+            elevation="0"
+            @click="getPrograms"
+            style="border: 1px solid #c4c4c4"
+            >Actualizar</v-btn
+          >
         </v-card-actions>
       </div>
       <div v-if="programs.length">

@@ -1,8 +1,10 @@
 <template>
   <v-card flat>
     <v-tabs centered class="pt-8">
-      <v-tab> Equipo </v-tab>
-      <v-tab> Invitaciones </v-tab>
+      <v-tab v-if="currentUser.email === 'admin@montrac.com'"> Equipo </v-tab>
+      <v-tab v-if="currentUser.email === 'admin@montrac.com'">
+        Invitaciones
+      </v-tab>
       <v-tab> Solicitudes </v-tab>
       <v-tab-item>
         <v-card class="mx-auto mt-8" flat>
@@ -12,11 +14,11 @@
             :items-per-page="5"
           >
             <template v-slot:[`item.actions`]="{ item }">
-              <v-btn elevation="0" @click="$router.push(`/team/${item.id}/information`)">
-                <i
-                  class="fas fa-search"
-                  style="color: rgb(102, 97, 91)"
-                ></i>
+              <v-btn
+                elevation="0"
+                @click="$router.push(`/team/${item.id}/information`)"
+              >
+                <i class="fas fa-search" style="color: rgb(102, 97, 91)"></i>
               </v-btn>
             </template>
           </v-data-table>
@@ -52,6 +54,7 @@
                 round
                 @click.native.prevent="sendInvitation"
                 :disabled="!isValid"
+                :style="!isValid ? { cursor: 'not-allowed'}: ''"
               >
                 Enviar
               </p-button>

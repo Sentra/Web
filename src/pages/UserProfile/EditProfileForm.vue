@@ -75,6 +75,7 @@
             round
             @click.native.prevent="updateProfile"
             :disabled="!isValid"
+            :style="!isValid ? { cursor: 'not-allowed' } : ''"
           >
             Actualizar Perfil
           </p-button>

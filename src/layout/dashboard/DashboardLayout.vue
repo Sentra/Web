@@ -3,9 +3,9 @@
     <side-bar>
       <template slot="links">
         <sidebar-link to="/dashboard" name="Home" icon="ti-panel" />
-        <sidebar-link to="/activities" name="Actividades" icon="ti-text" />
-        <sidebar-link to="/team" name="Mi equipo" icon="ti-bell" />
-        <sidebar-link to="/screenshots" name="Capturas" icon="ti-settings" />
+        <sidebar-link to="/activities" name="Actividades" icon="ti-bar-chart" />
+        <sidebar-link to="/team" name="Mi equipo" icon="ti-layout-grid2" />
+        <sidebar-link to="/screenshots" name="Capturas" icon="ti-gallery" />
         <sidebar-link to="/programs" name="Programas" icon="ti-view-list-alt" />
         <sidebar-link to="/profile" name="Perfil" icon="ti-user" />
       </template>

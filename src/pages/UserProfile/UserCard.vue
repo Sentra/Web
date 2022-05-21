@@ -19,21 +19,29 @@
     <div class="text-center">
       <div class="row">
         <div class="col-lg-6">
-          <h5>
+          <h5 class="mt-2">
             Invitaciones enviadas
             <br />
-            <v-btn elevation="0" to="notifications">{{
-              model.invitations_sent
-            }}</v-btn>
+            <v-btn
+              class="mt-3"
+              elevation="0"
+              to="notifications"
+              style="border: 1px solid #c4c4c4"
+              >{{ model.invitations_sent }}</v-btn
+            >
           </h5>
         </div>
         <div class="col-lg-6">
-          <h5>
+          <h5 class="mt-2">
             Invitaciones recibidas
             <br />
-            <v-btn elevation="0" to="notifications">{{
-              model.invitations_received
-            }}</v-btn>
+            <v-btn
+              class="mt-3"
+              elevation="0"
+              to="notifications"
+              style="border: 1px solid #c4c4c4"
+              >{{ model.invitations_received }}</v-btn
+            >
           </h5>
         </div>
       </div>
@@ -64,7 +72,11 @@ export default {
             console.log(e);
           });
 
-        await InvitationProxy.searchInvitation(null, null, this.currentUser.email)
+        await InvitationProxy.searchInvitation(
+          null,
+          null,
+          this.currentUser.email
+        )
           .then((response) => {
             this.model.invitations_received = response.data.filter(
               (x) => !x.status

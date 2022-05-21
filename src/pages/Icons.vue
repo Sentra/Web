@@ -45,7 +45,7 @@
             <div class="text-center">
               <i class="fas fa-folder-open fa-4x" style="color: #66615b"></i>
             </div>
-            <p class="text-center mt-3">No se encontraron registros.</p>
+            <p class="text-center mt-3 pb-5">No se encontraron registros.</p>
           </div>
           <v-row class="mt-3" v-else>
             <v-col v-for="screenshot in screenshots" :key="screenshot.id">

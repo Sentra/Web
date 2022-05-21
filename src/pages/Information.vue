@@ -1,11 +1,16 @@
 <template>
   <v-card flat>
     <v-card-actions>
-      <v-btn @click="$router.push(`/team`)">
-        <i class="fas fa-arrow-left" style="color: rgb(102, 97, 91)"></i>
+      <v-btn
+        elevation="0"
+        @click="$router.push(`/team`)"
+        style="border: 1px solid #c4c4c4"
+      >
+        <i class="ti-angle-left mr-1" style="color: rgb(102, 97, 91)"></i>
+        Regresar
       </v-btn>
     </v-card-actions>
-    <v-tabs centered class="pt-8">
+    <v-tabs centered class="pt-3">
       <v-tab> Historial de navegación </v-tab>
       <v-tab> Capturas de pantalla </v-tab>
       <v-tab> Programas utilizados </v-tab>
@@ -14,7 +19,12 @@
           <div class="col-12">
             <div class="d-flex">
               <v-card-actions style="margin: 1rem 2rem 0 auto">
-                <v-btn @click="getUrls">Actualizar</v-btn>
+                <v-btn
+                  elevation="0"
+                  style="border: 1px solid #c4c4c4"
+                  @click="getUrls"
+                  >Actualizar</v-btn
+                >
               </v-card-actions>
             </div>
             <v-tabs centered class="pt-8">
@@ -56,7 +66,7 @@
                   style="color: rgb(102, 97, 91)"
                 ></i>
               </div>
-              <p class="mt-2 text-center" style="color: rgb(102, 97, 91)">
+              <p class="mt-2 text-center pb-5" style="color: rgb(102, 97, 91)">
                 No se encontraron registros.
               </p>
             </div>
@@ -120,7 +130,7 @@
                       style="color: #66615b"
                     ></i>
                   </div>
-                  <p class="text-center mt-3" style="color: rgb(102, 97, 91)">
+                  <p class="text-center mt-3 pb-5" style="color: rgb(102, 97, 91)">
                     No se encontraron registros.
                   </p>
                 </div>
@@ -143,7 +153,12 @@
           <div class="col-12">
             <div class="d-flex">
               <v-card-actions style="margin: 1rem 2rem 0 auto">
-                <v-btn @click="getPrograms">Actualizar</v-btn>
+                <v-btn
+                  elevation="0"
+                  @click="getPrograms"
+                  style="border: 1px solid #c4c4c4"
+                  >Actualizar</v-btn
+                >
               </v-card-actions>
             </div>
             <div v-if="programs.length">
@@ -161,7 +176,7 @@
                   style="color: rgb(102, 97, 91)"
                 ></i>
               </div>
-              <p class="text-center mt-2" style="color: rgb(102, 97, 91)">
+              <p class="text-center mt-2 pb-5" style="color: rgb(102, 97, 91)">
                 No se encontraron registros.
               </p>
             </div>

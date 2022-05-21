@@ -122,7 +122,7 @@ export default {
       statsCards: [
         {
           type: "warning",
-          icon: "ti-server",
+          icon: "ti-layout-grid2",
           title: "Equipo",
           value: 0,
           footerText: "Actualizado ahora",
@@ -130,7 +130,7 @@ export default {
         },
         {
           type: "success",
-          icon: "ti-wallet",
+          icon: "ti-import",
           title: "Invitaciones",
           value: 0,
           footerText: "Actualizado ahora",
@@ -138,7 +138,7 @@ export default {
         },
         {
           type: "danger",
-          icon: "ti-pulse",
+          icon: "ti-bar-chart",
           title: "Actividades",
           value: 0,
           footerText: "Actualizado ahora",
@@ -146,7 +146,7 @@ export default {
         },
         {
           type: "info",
-          icon: "ti-twitter-alt",
+          icon: "ti-gallery",
           title: "Capturas",
           value: 0,
           footerText: "Actualizado ahora",
@@ -240,7 +240,11 @@ export default {
     },
     async getUserInvitations() {
       if (this.currentUser) {
-        await InvitationProxy.searchInvitation(null, null, this.currentUser.email)
+        await InvitationProxy.searchInvitation(
+          null,
+          null,
+          this.currentUser.email
+        )
           .then((response) => {
             this.statsCards[1].value = response.data.filter(
               (x) => !x.status
@@ -253,7 +257,11 @@ export default {
     },
     async getUrls() {
       if (this.currentUser) {
-        await UrlProxy.searchUrl(null, this.currentUser.id)
+        const id =
+          this.currentUser.email !== "admin@montrac.com"
+            ? this.currentUser.id
+            : null;
+        await UrlProxy.searchUrl(null, id)
           .then((response) => {
             this.statsCards[2].value = response.data.length;
           })
@@ -264,7 +272,11 @@ export default {
     },
     async getScreenshots() {
       if (this.currentUser) {
-        await ScreenshotProxy.searchScreenshot(this.currentUser.id, null)
+        const id =
+          this.currentUser.email !== "admin@montrac.com"
+            ? this.currentUser.id
+            : null;
+        await ScreenshotProxy.searchScreenshot(id, null)
           .then(async (response) => {
             this.screenshots = response.data.slice(0, 6);
             this.statsCards[3].value = response.data.length;
@@ -276,7 +288,11 @@ export default {
     },
     async getMostVisitedPages() {
       if (this.currentUser) {
-        await UrlProxy.searchUrl(null, this.currentUser.id)
+        const id =
+          this.currentUser.email !== "admin@montrac.com"
+            ? this.currentUser.id
+            : null;
+        await UrlProxy.searchUrl(null, id)
           .then((response) => {
             const uris = [];
             response.data.forEach((page) => {

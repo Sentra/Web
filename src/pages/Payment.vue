@@ -119,7 +119,9 @@ export default {
               verticalAlign: "top",
               type: "success",
             });
-            window.location.reload();
+            setTimeout(() => {
+              window.location.href = "https://web-delta-dun.vercel.app/#/login";
+            }, 5000);
           })
           .catch((e) => {
             this.$notify({

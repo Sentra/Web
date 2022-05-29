@@ -140,8 +140,9 @@ export default {
                 null,
                 null
               );
+              const code = user.data[0].identification || user.data[0].id;
               this.members.push({
-                id: user.data[0].id,
+                id: code,
                 firstName: user.data[0].firstName,
                 lastName: user.data[0].lastName,
                 email: user.data[0].email,

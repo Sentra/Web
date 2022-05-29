@@ -25,6 +25,16 @@
         <div class="row">
           <div class="col-md-6">
             <v-text-field
+              disabled="true"
+              type="identification"
+              label="Identificacion"
+              placeholder="Identificacion"
+              v-model="user.identification"
+            >
+            </v-text-field>
+          </div>
+          <div class="col-md-6">
+            <v-text-field
               type="text"
               label="Teléfono"
               placeholder="Teléfono"
@@ -34,17 +44,7 @@
             >
             </v-text-field>
           </div>
-          <div class="col-md-6">
-            <v-text-field
-              type="identification"
-              label="DNI"
-              placeholder="DNI"
-              v-model="user.identification"
-            >
-            </v-text-field>
-          </div>
         </div>
-
         <div class="row">
           <div class="col-md-6">
             <v-text-field

@@ -16,7 +16,7 @@
         <v-data-table
           :headers="headersTeamMembers"
           :items="programs"
-          :items-per-page="5"
+          :items-per-page="10"
         >
         </v-data-table>
       </div>
@@ -49,16 +49,27 @@ export default {
         await ProgramProxy.searchProgram(null, this.currentUser.id)
           .then(async (response) => {
             const result = [];
-            response.data.forEach((element) => {
-              element.startDate = new Date(element.startDate).toLocaleString();
-              element.endDate = new Date(element.endDate).toLocaleString();
-              if (
-                element.description.trim() &&
-                element.startDate &&
-                element.endDate
-              )
-                result.push(element);
-            });
+            const groups = {};
+
+            for (const element of response.data) {
+              const list = groups[element.description];
+              if (list) {
+                list.push(element);
+              } else {
+                groups[element.description] = [element];
+              }
+            }
+            const a = 5;
+
+            for (const group of Object.values(groups)) {
+              result.push({
+                description: group[0].description,
+                startDate: new Date(group[0].startDate).toLocaleString(),
+                endDate: new Date(group[group.length - 1].endDate).toLocaleString(),
+                timeUsed: this.sum(group, 'timeUsed'),
+              });
+            }
+
             this.programs = result;
           })
           .catch((e) => {
@@ -66,6 +77,11 @@ export default {
           });
       }
     },
+    sum(items, prop) {
+        return items.reduce((a, b) => {
+            return a + b[prop];
+        }, 0);
+    }
   },
   computed: {
     currentUser() {

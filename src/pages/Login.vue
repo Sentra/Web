@@ -99,11 +99,7 @@ export default {
       loading: false,
       isValid: true,
       emailRules: [
-        (v) => !!v || "Email es requerido",
-        (v) =>
-          /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
-            v
-          ) || "E-mail inválido.",
+        (v) => !!v || "Email es requerido"
       ],
       rules: [(v) => !!v || "Este campo es requerido"],
     };

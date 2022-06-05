@@ -6,7 +6,7 @@
         Invitaciones
       </v-tab>
       <v-tab> Solicitudes </v-tab>
-      <v-tab-item>
+      <v-tab-item v-if="currentUser.email === 'admin@montrac.com'">
         <v-card class="mx-auto mt-8" flat>
           <v-data-table
             :headers="headersTeamMembers"
@@ -24,7 +24,7 @@
           </v-data-table>
         </v-card>
       </v-tab-item>
-      <v-tab-item>
+      <v-tab-item v-if="currentUser.email === 'admin@montrac.com'">
         <v-card class="mx-auto mt-8" flat max-width="800">
           <h4>Invita a tus colaboradores</h4>
           <v-form class="pt-2" @submit.prevent v-model="isValid">
@@ -104,6 +104,7 @@ export default {
         { text: "Ver", value: "actions", sortable: false },
       ],
       headersInvitationRequest: [
+        { text: "Código", value: "id" },
         { text: "Nombre", value: "firstName" },
         { text: "Apellido", value: "lastName" },
         { text: "Email", value: "email" },

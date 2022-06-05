@@ -97,7 +97,7 @@ export default {
     return {
       isValid: true,
       headersTeamMembers: [
-        { text: "Código", value: "id" },
+        { text: "Código", value: "identification" },
         { text: "Nombre", value: "firstName" },
         { text: "Apellido", value: "lastName" },
         { text: "Email", value: "email" },
@@ -141,9 +141,9 @@ export default {
                 null,
                 null
               );
-              const code = user.data[0].identification || user.data[0].id;
               this.members.push({
-                id: code,
+                id: user.data[0].id,
+                identification: user.data[0].identification,
                 firstName: user.data[0].firstName,
                 lastName: user.data[0].lastName,
                 email: user.data[0].email,

@@ -17,7 +17,7 @@
     </div>
     <hr />
     <div class="text-center">
-      <div class="row">
+      <div v-if="currentUser.email === 'admin@montrac.com'" class="row">
         <div class="col-lg-6">
           <h5 class="mt-2">
             Invitaciones enviadas
@@ -25,7 +25,7 @@
             <v-btn
               class="mt-3"
               elevation="0"
-              to="notifications"
+              to="team"
               style="border: 1px solid #c4c4c4"
               >{{ model.invitations_sent }}</v-btn
             >
@@ -38,7 +38,22 @@
             <v-btn
               class="mt-3"
               elevation="0"
-              to="notifications"
+              to="team"
+              style="border: 1px solid #c4c4c4"
+              >{{ model.invitations_received }}</v-btn
+            >
+          </h5>
+        </div>
+      </div>
+      <div v-else class="row">
+        <div class="col-lg-12">
+          <h5 class="mt-2">
+            Invitaciones recibidas
+            <br />
+            <v-btn
+              class="mt-3"
+              elevation="0"
+              to="team"
               style="border: 1px solid #c4c4c4"
               >{{ model.invitations_received }}</v-btn
             >

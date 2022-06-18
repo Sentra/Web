@@ -234,6 +234,9 @@ export default {
             this.statsCards[0].value = filter.length;
           })
           .catch((e) => {
+            if (e.response.status === 401) {
+              this.logout();
+            }
             console.log(e);
           });
       }
@@ -352,6 +355,10 @@ export default {
             console.log(e);
           });
       }
+    },
+    logout() {
+      this.$store.dispatch("auth/logout");
+      this.$router.push("/login");
     },
   },
   computed: {

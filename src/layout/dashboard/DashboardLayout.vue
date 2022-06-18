@@ -8,13 +8,14 @@
         <sidebar-link to="/screenshots" name="Capturas" icon="ti-gallery" />
         <sidebar-link to="/programs" name="Programas" icon="ti-view-list-alt" />
         <sidebar-link to="/profile" name="Perfil" icon="ti-user" />
+        <a class="logout_button mt-3" @click="logout"
+          ><i class="ti-settings" style="margin: -.25rem .75rem 0 0"></i> CERRAR SESIÓN</a
+        >
       </template>
     </side-bar>
     <div class="main-panel">
       <top-navbar></top-navbar>
       <dashboard-content @click.native="toggleSidebar"> </dashboard-content>
-
-      <!-- <content-footer></content-footer> -->
     </div>
   </div>
 </template>
@@ -38,6 +39,10 @@ export default {
         this.$sidebar.displaySidebar(false);
       }
     },
+    logout() {
+      this.$store.dispatch("auth/logout");
+      this.$router.push("/login");
+    },
   },
   computed: {
     currentUser() {
@@ -51,3 +56,17 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+.logout_button {
+  display: none;
+}
+@media (max-width: 991px) {
+  .logout_button {
+    display: block;
+    color: #B8B8B8;
+    font-weight: 700;
+    font-size: .75rem;
+  }
+}
+</style>

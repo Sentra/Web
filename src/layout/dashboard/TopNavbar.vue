@@ -4,6 +4,17 @@
       <a class="navbar-brand"
         >{{ currentUser.firstName }} {{ currentUser.lastName }}</a
       >
+      <button
+        class="navbar-toggler navbar-burger"
+        type="button"
+        @click="toggleSidebar"
+        :aria-expanded="$sidebar.showSidebar"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-bar"></span>
+        <span class="navbar-toggler-bar"></span>
+        <span class="navbar-toggler-bar"></span>
+      </button>
       <div class="collapse navbar-collapse">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">

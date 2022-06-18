@@ -65,23 +65,32 @@ export default {
               result.push({
                 description: group[0].description,
                 startDate: new Date(group[0].startDate).toLocaleString(),
-                endDate: new Date(group[group.length - 1].endDate).toLocaleString(),
-                timeUsed: this.sum(group, 'timeUsed'),
+                endDate: new Date(
+                  group[group.length - 1].endDate
+                ).toLocaleString(),
+                timeUsed: this.sum(group, "timeUsed"),
               });
             }
 
             this.programs = result;
           })
           .catch((e) => {
+            if (e.response.status === 401) {
+              this.logout();
+            }
             console.log(e);
           });
       }
     },
     sum(items, prop) {
-        return items.reduce((a, b) => {
-            return a + b[prop];
-        }, 0);
-    }
+      return items.reduce((a, b) => {
+        return a + b[prop];
+      }, 0);
+    },
+    logout() {
+      this.$store.dispatch("auth/logout");
+      this.$router.push("/login");
+    },
   },
   computed: {
     currentUser() {

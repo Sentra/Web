@@ -117,6 +117,9 @@ export default {
             );
           })
           .catch((e) => {
+            if (e.response.status === 401) {
+              this.logout();
+            }
             console.log(e);
           });
       }
@@ -129,6 +132,10 @@ export default {
     fixTime(time) {
       if (!time) return time;
       return time.slice(0, time.length - 3);
+    },
+    logout() {
+      this.$store.dispatch("auth/logout");
+      this.$router.push("/login");
     },
   },
   computed: {

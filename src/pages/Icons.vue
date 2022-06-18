@@ -41,7 +41,11 @@
               Buscar
             </button>
           </div>
-          <div class="mx-auto" style="margin-top: 6rem" v-if="!screenshots.length">
+          <div
+            class="mx-auto"
+            style="margin-top: 6rem"
+            v-if="!screenshots.length"
+          >
             <div class="text-center">
               <i class="fas fa-folder-open fa-4x" style="color: #66615b"></i>
             </div>
@@ -97,6 +101,9 @@ export default {
               verticalAlign: "top",
               type: "warning",
             });
+            if (e.response.status === 401) {
+              this.logout();
+            }
             console.log(e);
           });
       }
@@ -153,6 +160,10 @@ export default {
           type: "warning",
         });
       }
+    },
+    logout() {
+      this.$store.dispatch("auth/logout");
+      this.$router.push("/login");
     },
   },
   computed: {

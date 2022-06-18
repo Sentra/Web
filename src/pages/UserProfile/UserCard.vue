@@ -98,9 +98,16 @@ export default {
             ).length;
           })
           .catch((e) => {
+            if (e.response.status === 401) {
+              this.logout();
+            }
             console.log(e);
           });
       }
+    },
+    logout() {
+      this.$store.dispatch("auth/logout");
+      this.$router.push("/login");
     },
   },
   computed: {

@@ -151,6 +151,9 @@ export default {
             }
           })
           .catch((e) => {
+            if (e.response.status === 401) {
+              this.logout();
+            }
             console.log(e);
           });
       }
@@ -254,6 +257,10 @@ export default {
         default:
           return e;
       }
+    },
+    logout() {
+      this.$store.dispatch("auth/logout");
+      this.$router.push("/login");
     },
   },
   computed: {
